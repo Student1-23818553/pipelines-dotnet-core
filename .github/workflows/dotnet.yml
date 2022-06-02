@@ -23,12 +23,25 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-  deploy:
-    name: Deploying .NET App
+  publish:
+    name: Publish App
     runs-on: ubuntu-latest
     steps:
-    - name: Azure WebApp
-      uses: Azure/webapps-deploy@v2
+    - name: Publish
+      run: dotnet publish -c Release -o website
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
       with:
-        app-name: MyWebApp
+        name: WebApp
+        path: website/**
+        if-no-files-found: warn
+
+  # deploy:
+  #   name: Deploying .NET App
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Azure WebApp
+  #     uses: Azure/webapps-deploy@v2
+  #     with:
+  #       app-name: MyWebApp
     
