@@ -22,8 +22,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish -c Release -o website
     - name: script
-      run: ls -lah
+      run: ls -lah website/
     
     
 #   package:
