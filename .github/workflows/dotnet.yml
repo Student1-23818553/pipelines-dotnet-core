@@ -23,10 +23,10 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-  publish:
-    name: Publish App
-    runs-on: ubuntu-latest
-    steps:
+#   publish:
+#     name: Publish App
+#     runs-on: ubuntu-latest
+#     steps:
     - name: Publish
       run: dotnet publish -c Release -o website
     - name: Upload a Build Artifact
