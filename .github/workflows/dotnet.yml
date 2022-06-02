@@ -26,6 +26,7 @@ jobs:
       run: dotnet publish -c Release -o website
     - name: script
       run: ls -lah website/
+      
     
     
 #   package:
