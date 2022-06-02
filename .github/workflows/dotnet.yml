@@ -22,19 +22,22 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-
-#   publish:
-#     name: Publish App
+    - name: script
+      run: ls -lah
+    
+    
+#   package:
+#     name: Package App
 #     runs-on: ubuntu-latest
 #     steps:
-    - name: Publish
-      run: dotnet publish -c Release -o website
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3.1.0
-      with:
-        name: WebApp
-        path: website/**
-        if-no-files-found: warn
+#     - name: Publish
+#       run: dotnet publish -c Release -o website
+#     - name: Upload a Build Artifact
+#       uses: actions/upload-artifact@v3.1.0
+#       with:
+#         name: WebApp
+#         path: website/**
+#         if-no-files-found: warn
 
   # deploy:
   #   name: Deploying .NET App
