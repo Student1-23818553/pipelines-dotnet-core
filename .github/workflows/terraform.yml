@@ -36,14 +36,14 @@ jobs:
     # Run a terraform fmt for push and PR on non-master branch
     - name: Terraform Format
       id: fmt
-      if: github.ref != 'refs/heads/master'
+      # if: github.ref != 'refs/heads/master'
       run: terraform fmt -check
 
     # Run a terraform validate for push and PR on non-master branch
     # Run even if formatting fails
     - name: Terraform Validate
       id: validate
-      if: github.ref != 'refs/heads/master' && (success() || failure())
+      # if: github.ref != 'refs/heads/master' && (success() || failure())
       run: terraform validate -no-color
 
     # Run a terraform plan for pull requests only
@@ -54,7 +54,7 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      if: github.event_name == 'pull_request'
+      # if: github.event_name == 'pull_request'
       run: terraform plan -no-color
 
     # Run Checkov against configuration
@@ -109,7 +109,7 @@ jobs:
 
       # On push to master, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      # if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
