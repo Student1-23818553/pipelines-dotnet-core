@@ -33,20 +33,14 @@ jobs:
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: terraform init
 
-    # Run a terraform fmt for push and PR on non-master branch
     - name: Terraform Format
       id: fmt
-      # if: github.ref != 'refs/heads/master'
       run: terraform fmt -check
 
-    # Run a terraform validate for push and PR on non-master branch
-    # Run even if formatting fails
     - name: Terraform Validate
       id: validate
-      # if: github.ref != 'refs/heads/master' && (success() || failure())
       run: terraform validate -no-color
 
-    # Run a terraform plan for pull requests only
     - name: Terraform Plan
       id: plan
       env:
@@ -54,12 +48,9 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      # if: github.event_name == 'pull_request'
       run: terraform plan -no-color
 
-    # Run Checkov against configuration
     - name: Checkov
-      # if: github.event_name == 'pull_request'
       id: checkov
       uses: bridgecrewio/checkov-action@master
       with:
@@ -68,9 +59,8 @@ jobs:
         container_user: 1000
         output_format: github_failed_only
         soft_fail: false
-        # skip_check:
+        skip_check: CKV_AZURE_113,CKV_AZURE_24,CKV_AZURE_23
     
-    # Add a comment to pull requests with plan results
     - name: add-plan-comment
       id: comment
       uses: actions/github-script@v3
@@ -107,9 +97,7 @@ jobs:
             body: output
           })
 
-      # On push to master, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      # if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
