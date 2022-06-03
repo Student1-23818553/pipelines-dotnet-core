@@ -31,4 +31,8 @@ resource "azurerm_mssql_database" "db" {
   read_scale     = false
   sku_name       = "S0"
   zone_redundant = false
+
+  lifecycle {
+    ignore_changes = [license_type]
+  }
 }

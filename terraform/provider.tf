@@ -5,6 +5,12 @@ terraform {
       version = "3.8.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "myrg"
+    storage_account_name = "tfstatelock"
+    container_name       = "tfstatelock"
+    key                  = "training1.tfstate"
+  }
 }
 
 provider "azurerm" {
